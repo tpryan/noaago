@@ -1,0 +1,3 @@
+test:
+	goimports -w .
+	go test -v ./...
