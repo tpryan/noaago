@@ -252,3 +252,70 @@ func TestFindStations_Non200(t *testing.T) {
 		t.Errorf("Unexpected error: %v", err)
 	}
 }
+
+func TestFindStations_Units(t *testing.T) {
+	mockResponse := `{
+		"count": 1,
+		"stations": [
+			{
+				"id": "1",
+				"name": "Point B",
+				"lat": 37.95,
+				"lng": -122.4659
+			}
+		]
+	}`
+	// Point A (Reference): 37.80, -122.4659
+	// Point B (Station):   37.95, -122.4659
+	// Latitude difference 0.15 degrees.
+	// 1 degree lat is approx 69 miles. 0.15 * 69 = 10.35 miles.
+	// Accurate Haversine distance is approx 10.36 miles (16.67 km).
+
+	server, client := setupMockClient(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprint(w, mockResponse)
+	})
+	defer server.Close()
+
+	// 1. Miles check
+	// Radius 11 miles -> Should find
+	opts := NewStationOptionsBuilder().
+		Nearby(37.80, -122.4659, 11).
+		Unit(RadiusUnitMiles).
+		Build()
+	resp, _ := client.FindStations(opts)
+	if len(resp.Stations) != 1 {
+		t.Errorf("Expected 1 station with 11 miles radius, got %d", len(resp.Stations))
+	}
+
+	// Radius 10 miles -> Should NOT find (dist is ~10.36)
+	opts = NewStationOptionsBuilder().
+		Nearby(37.80, -122.4659, 10).
+		Unit(RadiusUnitMiles).
+		Build()
+	resp, _ = client.FindStations(opts)
+	if len(resp.Stations) != 0 {
+		t.Errorf("Expected 0 stations with 10 miles radius, got %d", len(resp.Stations))
+	}
+
+	// 2. Kilometers check
+	// Radius 17 km (~10.56 miles) -> Should find
+	opts = NewStationOptionsBuilder().
+		Nearby(37.80, -122.4659, 17).
+		Unit(RadiusUnitKilometers).
+		Build()
+	resp, _ = client.FindStations(opts)
+	if len(resp.Stations) != 1 {
+		t.Errorf("Expected 1 station with 17 km radius, got %d", len(resp.Stations))
+	}
+
+	// Radius 16 km (~9.94 miles) -> Should NOT find
+	opts = NewStationOptionsBuilder().
+		Nearby(37.80, -122.4659, 16).
+		Unit(RadiusUnitKilometers).
+		Build()
+	resp, _ = client.FindStations(opts)
+	if len(resp.Stations) != 0 {
+		t.Errorf("Expected 0 stations with 16 km radius, got %d", len(resp.Stations))
+	}
+}

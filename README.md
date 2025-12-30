@@ -64,6 +64,71 @@ func main() {
 }
 ```
 
+## Configuration Options
+
+### StationOptionsBuilder
+
+Used for finding stations via `client.FindStations()`.
+
+| Method | Description |
+|--------|-------------|
+| `Nearby(lat, lon, radius)` | Filters stations within `radius` miles of the given coordinates. |
+| `Unit(RadiusUnit)` | Sets the unit for the search radius (defaults to Miles). |
+| `Type(StationType)` | Filters by station type (e.g., `noaago.StationTypeWaterLevels`). |
+
+### TideOptionsBuilder
+
+Used for fetching data via `client.GetTides()`.
+
+| Method | Description |
+|--------|-------------|
+| `StationID(string)` | Sets the NOAA station ID (required). |
+| `DateRange(start, end)` | Sets the time range for data. |
+| `Product(ProductType)` | Sets the data product (e.g., Water Level, Wind). |
+| `Datum(Datum)` | Sets the vertical datum (e.g., MLLW, MSL). |
+| `Units(Units)` | Sets the units (Metric or English). |
+| `TimeZone(TimeZone)` | Sets the time zone (GMT, LST, LST_LDT). |
+| `Interval(Interval)` | Sets the data interval (e.g., High/Low, Hourly). |
+
+### Available Constants
+
+#### Product Types
+- `ProductWaterLevel`: 6-minute water level data
+- `ProductPredictions`: Tide predictions
+- `ProductAirTemp`: Air temperature
+- `ProductWaterTemp`: Water temperature
+- `ProductWind`: Wind speed, direction, and gusts
+- `ProductAirPressure`: Barometric pressure
+- `ProductHighLow`: High and Low water levels
+- `ProductHourlyHeight`: Hourly water levels
+- ... and more (see `types.go`)
+
+#### Datums
+- `DatumMLLW`: Mean Lower Low Water
+- `DatumMHW`: Mean High Water
+- `DatumMSL`: Mean Sea Level
+- `DatumSTND`: Station Datum
+- ... and more
+
+#### Units
+- `UnitsMetric`: Celsius, Meters, etc.
+- `UnitsEnglish`: Fahrenheit, Feet, etc.
+
+#### Time Zones
+- `TimeZoneGMT`: Greenwich Mean Time
+- `TimeZoneLST`: Local Standard Time
+- `TimeZoneLSTLDT`: Local Standard/Daylight Time
+
+#### Intervals
+- `IntervalHighLow`: High/Low tides
+- `IntervalHourly`: Hourly data
+- (Default): 6-minute intervals
+
+#### Radius Units
+- `RadiusUnitMiles` (Default)
+- `RadiusUnitKilometers`
+- `RadiusUnitNauticalMiles`
+
 ## Features
 
 - **Fluent Interface**: Builder pattern for configuring requests.

@@ -61,3 +61,11 @@ const (
 	IntervalHourly  Interval = "h"
 	// Default is 6 minutes, which is usually empty string or not sent
 )
+
+type RadiusUnit string
+
+const (
+	RadiusUnitMiles         RadiusUnit = "miles"
+	RadiusUnitKilometers    RadiusUnit = "kilometers"
+	RadiusUnitNauticalMiles RadiusUnit = "nautical_miles"
+)

@@ -19,7 +19,7 @@ func main() {
 	// 1. Find a station
 	// Using a larger radius as BVI might be served by nearby stations
 	stationOpts := noaago.NewStationOptionsBuilder().
-		Nearby(lat, lon, 100). 
+		Nearby(lat, lon, 100).
 		Type(noaago.StationTypeWaterLevels).
 		Build()
 

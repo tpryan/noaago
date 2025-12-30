@@ -83,10 +83,11 @@ func (b *TideOptionsBuilder) Build() *TideOptions {
 
 // StationOptions defines the parameters for metadata requests
 type StationOptions struct {
-	Latitude  float64
-	Longitude float64
-	Radius    float64
-	Type      StationType
+	Latitude   float64
+	Longitude  float64
+	Radius     float64
+	RadiusUnit RadiusUnit
+	Type       StationType
 }
 
 // StationOptionsBuilder is a builder for StationOptions
@@ -98,7 +99,8 @@ type StationOptionsBuilder struct {
 func NewStationOptionsBuilder() *StationOptionsBuilder {
 	return &StationOptionsBuilder{
 		options: &StationOptions{
-			Radius: 10, // Default radius might be good, or let user set it.
+			Radius:     10,              // Default radius
+			RadiusUnit: RadiusUnitMiles, // Default unit
 		},
 	}
 }
@@ -108,6 +110,12 @@ func (b *StationOptionsBuilder) Nearby(lat, lon, radius float64) *StationOptions
 	b.options.Latitude = lat
 	b.options.Longitude = lon
 	b.options.Radius = radius
+	return b
+}
+
+// Unit sets the unit for the search radius
+func (b *StationOptionsBuilder) Unit(u RadiusUnit) *StationOptionsBuilder {
+	b.options.RadiusUnit = u
 	return b
 }
 

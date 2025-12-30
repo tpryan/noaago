@@ -133,10 +133,19 @@ func (c *Client) FindStations(o *StationOptions) (*StationResponse, error) {
 
 	// Filter by distance if lat/lon/radius are provided
 	if o.Latitude != 0 && o.Longitude != 0 && o.Radius > 0 {
+		// Convert search radius to miles for comparison (haversine returns miles)
+		radiusInMiles := o.Radius
+		switch o.RadiusUnit {
+		case RadiusUnitKilometers:
+			radiusInMiles = o.Radius * 0.621371
+		case RadiusUnitNauticalMiles:
+			radiusInMiles = o.Radius * 1.15078
+		}
+
 		var filtered []Station
 		for _, s := range stationResp.Stations {
 			dist := haversine(o.Latitude, o.Longitude, s.Lat, s.Lng)
-			if dist <= o.Radius {
+			if dist <= radiusInMiles {
 				filtered = append(filtered, s)
 			}
 		}

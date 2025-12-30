@@ -39,7 +39,7 @@ func main() {
 	startDate := targetDate
 	endDate := targetDate.AddDate(0, 0, 5) // 5 days of predictions
 
-	fmt.Printf("Fetching high/low tide predictions for the period of %s to %s...\n", 
+	fmt.Printf("Fetching high/low tide predictions for the period of %s to %s...\n",
 		startDate.Format("2006-01-02"), endDate.Format("2006-01-02"))
 
 	// 3. Get Predictions
