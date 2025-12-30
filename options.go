@@ -14,6 +14,7 @@ type TideOptions struct {
 	Units     Units
 	TimeZone  TimeZone
 	Format    string
+	Interval  Interval
 }
 
 // TideOptionsBuilder is a builder for TideOptions
@@ -66,6 +67,12 @@ func (b *TideOptionsBuilder) Units(u Units) *TideOptionsBuilder {
 // TimeZone sets the time zone
 func (b *TideOptionsBuilder) TimeZone(tz TimeZone) *TideOptionsBuilder {
 	b.options.TimeZone = tz
+	return b
+}
+
+// Interval sets the data interval (e.g. "hilo" for High/Low)
+func (b *TideOptionsBuilder) Interval(i Interval) *TideOptionsBuilder {
+	b.options.Interval = i
 	return b
 }
 

@@ -45,11 +45,13 @@ func TestGetTides_Success(t *testing.T) {
 	if resp.Metadata.Name != "San Francisco" {
 		t.Errorf("Expected station name San Francisco, got %s", resp.Metadata.Name)
 	}
-	if len(resp.Data) != 1 {
-		t.Errorf("Expected 1 data point, got %d", len(resp.Data))
+
+	dataset := resp.GetData()
+	if len(dataset) != 1 {
+		t.Errorf("Expected 1 data point, got %d", len(dataset))
 	}
 
-	val, err := resp.Data[0].ValueFloat()
+	val, err := dataset[0].ValueFloat()
 	if err != nil {
 		t.Errorf("ValueFloat failed: %v", err)
 	}
@@ -57,7 +59,6 @@ func TestGetTides_Success(t *testing.T) {
 		t.Errorf("Expected value 2.5, got %f", val)
 	}
 }
-
 func TestGetTides_Error(t *testing.T) {
 	mockResponse := `{
 		"error": {

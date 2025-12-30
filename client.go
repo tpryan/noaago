@@ -191,9 +191,12 @@ func (c *Client) dataUrl(o *TideOptions) string {
 		q.Set("time_zone", string(o.TimeZone))
 	}
 
+	if o.Interval != "" {
+		q.Set("interval", string(o.Interval))
+	}
+
 	q.Set("format", "json")
 	q.Set("application", c.UserAgent) // Good practice to identify app
-
 	u.RawQuery = q.Encode()
 	return u.String()
 }

@@ -53,3 +53,11 @@ const (
 	TimeZoneLST    TimeZone = "lst"     // Local Standard Time
 	TimeZoneLSTLDT TimeZone = "lst_ldt" // Local Standard/Daylight Time
 )
+
+type Interval string
+
+const (
+	IntervalHighLow Interval = "hilo"
+	IntervalHourly  Interval = "h"
+	// Default is 6 minutes, which is usually empty string or not sent
+)

@@ -19,6 +19,7 @@ func TestDataUrl(t *testing.T) {
 		Datum(DatumMLLW).
 		Units(UnitsMetric).
 		TimeZone(TimeZoneGMT).
+		Interval(IntervalHighLow).
 		Build()
 
 	uStr := client.dataUrl(opts)
@@ -42,6 +43,9 @@ func TestDataUrl(t *testing.T) {
 	}
 	if q.Get("time_zone") != string(TimeZoneGMT) {
 		t.Errorf("Expected time_zone %s, got %s", TimeZoneGMT, q.Get("time_zone"))
+	}
+	if q.Get("interval") != string(IntervalHighLow) {
+		t.Errorf("Expected interval %s, got %s", IntervalHighLow, q.Get("interval"))
 	}
 	if q.Get("format") != "json" {
 		t.Errorf("Expected format json, got %s", q.Get("format"))

@@ -56,14 +56,25 @@ func main() {
 	}
 
 	// Print the results
+
 	fmt.Printf("%-20s | %-10s | %-5s\n", "Time", "Level (ft)", "Quality")
+
 	fmt.Println("--------------------------------------------------")
-	for _, dp := range data.Data {
+
+	dataset := data.GetData()
+
+	for _, dp := range dataset {
+
 		val, _ := dp.ValueFloat()
-		fmt.Printf("% -20s | %-10.3f | %-5s\n", dp.Time, val, dp.Quality)
+
+		fmt.Printf("%-20s | %-10.3f | %-5s\n", dp.Time, val, dp.Quality)
+
 	}
 
-	if len(data.Data) == 0 {
+	if len(dataset) == 0 {
+
 		fmt.Println("No data points returned for this time range.")
+
 	}
+
 }

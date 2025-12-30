@@ -4,9 +4,18 @@ import "strconv"
 
 // TideResponse represents the Data API response
 type TideResponse struct {
-	Metadata TideMetadata `json:"metadata"`
-	Data     []DataPoint  `json:"data"`
-	Error    *APIError    `json:"error,omitempty"`
+	Metadata    TideMetadata `json:"metadata"`
+	Data        []DataPoint  `json:"data"`
+	Predictions []DataPoint  `json:"predictions"`
+	Error       *APIError    `json:"error,omitempty"`
+}
+
+// GetData returns the data points regardless of whether they came from "data" or "predictions"
+func (r *TideResponse) GetData() []DataPoint {
+	if len(r.Predictions) > 0 {
+		return r.Predictions
+	}
+	return r.Data
 }
 
 // TideMetadata contains metadata about the station in the data response
