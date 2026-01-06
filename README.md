@@ -90,6 +90,16 @@ Used for fetching data via `client.GetTides()`.
 | `TimeZone(TimeZone)` | Sets the time zone (GMT, LST, LST_LDT). |
 | `Interval(Interval)` | Sets the data interval (e.g., High/Low, Hourly). |
 
+## Client Configuration
+
+The `Client` struct has exported fields that can be modified after initialization:
+
+```go
+client := noaago.NewClient()
+client.UserAgent = "My-App/1.0" // Custom User-Agent header
+client.HTTPClient = &http.Client{Timeout: 30 * time.Second} // Custom HTTP Client
+```
+
 ### Available Constants
 
 #### Product Types
@@ -99,16 +109,28 @@ Used for fetching data via `client.GetTides()`.
 - `ProductWaterTemp`: Water temperature
 - `ProductWind`: Wind speed, direction, and gusts
 - `ProductAirPressure`: Barometric pressure
-- `ProductHighLow`: High and Low water levels
+- `ProductConductivity`: Conductivity
+- `ProductVisibility`: Visibility
+- `ProductHumidity`: Humidity
+- `ProductSalinity`: Salinity
 - `ProductHourlyHeight`: Hourly water levels
-- ... and more (see `types.go`)
+- `ProductHighLow`: High and Low water levels
+- `ProductDailyMean`: Daily mean water level
+- `ProductMonthlyMean`: Monthly mean water level
+- `ProductOneMinuteWaterLevel`: One minute water level
 
 #### Datums
 - `DatumMLLW`: Mean Lower Low Water
 - `DatumMHW`: Mean High Water
 - `DatumMSL`: Mean Sea Level
 - `DatumSTND`: Station Datum
-- ... and more
+- `DatumMHHW`: Mean Higher High Water
+- `DatumMLW`: Mean Low Water
+- `DatumNAVD`: North American Vertical Datum
+
+#### Station Types
+- `StationTypeWaterLevels`
+- `StationTypeCurrents`
 
 #### Units
 - `UnitsMetric`: Celsius, Meters, etc.
